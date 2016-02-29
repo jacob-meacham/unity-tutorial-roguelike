@@ -29,15 +29,11 @@ public class BoardManager : MonoBehaviour {
 	public List<GameObject> outerWalls;
 
 	private Transform boardParent;
-	private List<Vector3> gridPositions = new List<Vector3>();
+	private List<Vector3> openGridPositions = new List<Vector3>();
 
 	public void SetupScene(int level) {
 		// Fill out walls and floor
 		GenerateBoard ();
-
-		// Create list of possible grid positions for items, enemies, and exits
-		gridPositions = _.Zip(Enumerable.Range (0, columns-1), Enumerable.Range (0, rows-1), 
-			(row, column) => new Vector3 (row, column, 0f)).ToList();
 
 		PlaceObjects (walls, wallCount.min, wallCount.max);
 		PlaceObjects (food, foodCount.min, foodCount.max);
@@ -50,6 +46,7 @@ public class BoardManager : MonoBehaviour {
 
 	void GenerateBoard() {
 		boardParent = new GameObject ("Board").transform;
+		openGridPositions.Clear ();
 
 		for (int col = -1; col <= columns; col++) {
 			for (int row = -1; row <= rows; row++) {
@@ -57,6 +54,9 @@ public class BoardManager : MonoBehaviour {
 
 				if (col == -1 || col == columns || row == -1 || row == rows) {
 					toInstantiate = outerWalls.RandomElement ();
+				} else {
+					// Also peg this as a possible position for an object to go
+					openGridPositions.Add(new Vector3(col, row, 0f));
 				}
 
 				GameObject instance = Instantiate (toInstantiate, new Vector3 (col, row, 0f), Quaternion.identity) as GameObject;
@@ -66,9 +66,9 @@ public class BoardManager : MonoBehaviour {
 	}
 
 	Vector3 RandomGridPosition() {
-		int randomElement = Random.Range (0, gridPositions.Count);
-		Vector3 pos = gridPositions[randomElement];
-		gridPositions.RemoveAt (randomElement);
+		int randomElement = Random.Range (0, openGridPositions.Count);
+		Vector3 pos = openGridPositions[randomElement];
+		openGridPositions.RemoveAt (randomElement);
 
 		return pos;
 	}
