@@ -1,26 +1,47 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
-	public static GameManager instance = null;
-	private BoardManager boardManager;
-	private int level = 3;
+public class GameManager : MonoBehaviour
+{
+    public static GameManager instance = null;
 
-	void Awake() {
-		if (instance == null) {
-			instance = this;
-		} else if (instance != this) {
-			Destroy (gameObject);
-		}
+    public int playerHealth = 100;
+    private BoardManager boardManager;
+    private int level = 3;
+    [HideInInspector] public bool playersTurn = true;
 
-		DontDestroyOnLoad (gameObject);
+    void Awake()
+    {
+        print("Awake");
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
 
-		boardManager = GetComponent<BoardManager>();
-		InitGame ();
-	}
+        // Move to the root
+        this.transform.parent = null;
+        DontDestroyOnLoad(gameObject);
 
-	void InitGame() {
-		boardManager.SetupScene (level);
-	}
+        boardManager = GetComponent<BoardManager>();
+        InitGame();
+    }
+
+    void InitGame()
+    {
+        boardManager.SetupScene(level);
+    }
+
+    public void NextLevel()
+    {
+        level += 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    
+    public void GameOver() {
+        enabled = false;
+    }
 }
