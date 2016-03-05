@@ -42,8 +42,6 @@ public class BoardManager : MonoBehaviour
         PlaceObjects(food, foodCount.min, foodCount.max);
 
         int numEnemies = (int)Mathf.Log(level, 2f);
-        print(level);
-        print(numEnemies);
         PlaceObjects(enemies, numEnemies, numEnemies);
 
         Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
