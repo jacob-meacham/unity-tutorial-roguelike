@@ -56,7 +56,7 @@ public abstract class Actor : MonoBehaviour
         }
     }
 
-    protected virtual bool AttemptMove<T>(int xDir, int yDir) where T : Component
+    protected virtual bool AttemptMove(int xDir, int yDir)
     {
         RaycastHit2D hit;
         bool canMove = CanMove(xDir, yDir, out hit);
@@ -71,13 +71,12 @@ public abstract class Actor : MonoBehaviour
         }
 
         // Otherwise, there is something there.
-        T hitComponent = hit.transform.GetComponent<T>();
-        if (!canMove && hitComponent != null)
+        if (!canMove)
         {
-            OnCantMove(hitComponent);
+            OnCollide(hit.transform.gameObject);
         }
         return false;
     }
 
-    protected abstract void OnCantMove<T>(T component) where T : Component;
+    protected abstract void OnCollide(GameObject hitObject);
 }

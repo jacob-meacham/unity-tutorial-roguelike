@@ -12,6 +12,7 @@ GameObject:
   - 95: {fileID: 9559966}
   - 50: {fileID: 5079316}
   - 61: {fileID: 6197682}
+  - 114: {fileID: 11469426}
   m_Layer: 8
   m_Name: Enemy2
   m_TagString: Enemy
@@ -79,6 +80,23 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11469426
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 109856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d300708efd741e6b812c33d1972e3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveTime: 0.1
+  blockingLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  playerDamage: 1
+  health: 2
 --- !u!212 &21219362
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -121,6 +139,18 @@ Prefab:
       value: 
       objectReference: {fileID: 21300024, guid: fbe1e7b94bb1a4a099d5bcb15a00141c,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: blockingLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: playerDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: health
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 109856}

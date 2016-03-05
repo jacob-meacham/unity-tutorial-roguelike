@@ -7,6 +7,7 @@ public class Player : Actor
     public int pointsPerFood = 10;
     public int pointsPerSoda = 20;
     public int wallDamage = 1;
+    public int enemyDamage = 1;
 
     private Animator animator;
     private int health;
@@ -45,26 +46,32 @@ public class Player : Actor
         if (horizontal != 0 || vertical != 0)
         {
             // Attempt to move
-            AttemptMove<Wall>(horizontal, vertical);
+            AttemptMove(horizontal, vertical);
         }
     }
 
-    protected override bool AttemptMove<T>(int xDir, int yDir)
+    protected override bool AttemptMove(int xDir, int yDir)
     {
         health--;
         CheckIfGameOver();
 
-        bool canMove = base.AttemptMove<T>(xDir, yDir);
+        bool canMove = base.AttemptMove(xDir, yDir);
         GameManager.instance.playersTurn = false;
 
         return canMove;
     }
 
-    protected override void OnCantMove<T>(T component)
+    protected override void OnCollide(GameObject hitObject)
     {
-        Wall hitWall = component as Wall;
-        hitWall.DamageWall(wallDamage);
-        animator.SetTrigger("PlayerChop");
+        if (hitObject.tag == "Wall") {
+            Wall hitWall = hitObject.GetComponent<Wall>();
+            hitWall.DamageWall(wallDamage);
+            animator.SetTrigger("PlayerChop");       
+        } else if (hitObject.tag == "Enemy") {
+            Enemy hitEnemy = hitObject.GetComponent<Enemy>();
+            hitEnemy.LoseHealth(enemyDamage);
+            animator.SetTrigger("PlayerChop");
+        }   
     }
 
     private void OnTriggerEnter2D(Collider2D other)

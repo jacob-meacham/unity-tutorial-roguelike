@@ -64,8 +64,10 @@ public class BoardManager : MonoBehaviour
                 {
                     toInstantiate = outerWalls.RandomElement();
                 }
-                else
+                // Don't allow anything to be placed over the exit or the player.
+                else if (!(col == 0 && row == 0 || col == columns -1 && row == rows - 1))
                 {
+                    
                     // Also peg this as a possible position for an object to go
                     openGridPositions.Add(new Vector3(col, row, 0f));
                 }
