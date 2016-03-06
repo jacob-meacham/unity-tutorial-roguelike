@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Animator))]
 public class Player : Actor
@@ -8,7 +9,8 @@ public class Player : Actor
     public int pointsPerSoda = 20;
     public int wallDamage = 1;
     public int enemyDamage = 1;
-
+    public Text healthText;
+    
     private Animator animator;
     private int health;
 
@@ -18,6 +20,9 @@ public class Player : Actor
         animator = GetComponent<Animator>();
         health = GameManager.instance.playerHealth;
         base.Start();
+        
+        // TODO: This should be handled by a UI layer
+        healthText.text = "Health " + health;
     }
 
     private void OnDisable()
@@ -53,7 +58,8 @@ public class Player : Actor
     protected override bool AttemptMove(int xDir, int yDir)
     {
         health--;
-        CheckIfGameOver();
+        healthText.text = "Health " + health;
+        CheckIfGameOver(true);
 
         bool canMove = base.AttemptMove(xDir, yDir);
         GameManager.instance.playersTurn = false;
@@ -84,11 +90,13 @@ public class Player : Actor
         else if (other.tag == "Food")
         {
             health += pointsPerFood;
+            healthText.text = "+" + pointsPerFood + "! Health " + health;
             other.gameObject.SetActive(false);
         }
         else if (other.tag == "Soda")
         {
             health += pointsPerSoda;
+            healthText.text = "+" + pointsPerSoda + "! Health " + health;
             other.gameObject.SetActive(false);
         }
     }
@@ -102,14 +110,15 @@ public class Player : Actor
     {
         animator.SetTrigger("PlayerHit");
         health -= loss;
-        CheckIfGameOver();
+        healthText.text = "-" + loss + "! Health " + health;
+        CheckIfGameOver(false);
     }
 
-    private void CheckIfGameOver()
+    private void CheckIfGameOver(bool starved)
     {
         if (health <= 0)
         {
-            GameManager.instance.GameOver();
+            GameManager.instance.GameOver(starved);
         }
     }
 }
