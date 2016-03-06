@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     public int playerHealth = 100;
-    public float turnDelay = 0.1F;
+    public float turnDelay = 0.1f;
     private BoardManager boardManager;
     
     private int level = 3;
@@ -42,9 +42,15 @@ public class GameManager : MonoBehaviour
         
         InitGame();
     }
+    
+    void OnLevelWasLoaded(int index)
+    {
+        InitGame();
+    }
 
     void InitGame()
     {
+        enemies.Clear();
         boardManager.SetupScene(level);
     }
 
