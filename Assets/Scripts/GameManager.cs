@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public int playerHealth = 100;
     public float turnDelay = 0.1f;
     public float levelStartDelay = 2f;
+    public AudioClip gameOverSound;
     
     private int level = 1;
     private int initialPlayerHealth;
@@ -129,6 +130,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver(bool starved)
     {
+        SoundManager.Instance.Play(gameOverSound);
         if (starved) {
             levelText.text = "After " + level + " days, you starved.";
         } else {

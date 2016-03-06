@@ -10,7 +10,11 @@ public class Player : Actor
     public int wallDamage = 1;
     public int enemyDamage = 1;
     public Text healthText;
-    
+
+    public AudioClip[] moveSounds;
+    public AudioClip[] drinkSounds;
+    public AudioClip[] eatSounds;
+
     private Animator animator;
     private int health;
 
@@ -20,7 +24,7 @@ public class Player : Actor
         animator = GetComponent<Animator>();
         health = GameManager.instance.playerHealth;
         base.Start();
-        
+
         // TODO: This should be handled by a UI layer
         healthText.text = "Health " + health;
     }
@@ -62,22 +66,30 @@ public class Player : Actor
         CheckIfGameOver(true);
 
         bool canMove = base.AttemptMove(xDir, yDir);
-        GameManager.instance.playersTurn = false;
 
+        if (canMove)
+        {
+            SoundManager.Instance.PlayRandom(drinkSounds);
+        }
+
+        GameManager.instance.playersTurn = false;
         return canMove;
     }
 
     protected override void OnCollide(GameObject hitObject)
     {
-        if (hitObject.tag == "Wall") {
+        if (hitObject.tag == "Wall")
+        {
             Wall hitWall = hitObject.GetComponent<Wall>();
             hitWall.DamageWall(wallDamage);
-            animator.SetTrigger("PlayerChop");       
-        } else if (hitObject.tag == "Enemy") {
+            animator.SetTrigger("PlayerChop");
+        }
+        else if (hitObject.tag == "Enemy")
+        {
             Enemy hitEnemy = hitObject.GetComponent<Enemy>();
             hitEnemy.LoseHealth(enemyDamage);
             animator.SetTrigger("PlayerChop");
-        }   
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -92,12 +104,14 @@ public class Player : Actor
             health += pointsPerFood;
             healthText.text = "+" + pointsPerFood + "! Health " + health;
             other.gameObject.SetActive(false);
+            SoundManager.Instance.PlayRandom(eatSounds);
         }
         else if (other.tag == "Soda")
         {
             health += pointsPerSoda;
             healthText.text = "+" + pointsPerSoda + "! Health " + health;
             other.gameObject.SetActive(false);
+            SoundManager.Instance.PlayRandom(drinkSounds);
         }
     }
 

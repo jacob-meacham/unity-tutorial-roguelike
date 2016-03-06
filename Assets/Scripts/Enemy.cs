@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 [RequireComponent(typeof(Animator))]
 public class Enemy : Actor {
@@ -8,6 +7,8 @@ public class Enemy : Actor {
     
     private Animator animator;
     private Transform target;
+    
+    public AudioClip[] attackSounds;
 
 	// Use this for initialization
 	protected override void Start () {
@@ -44,6 +45,7 @@ public class Enemy : Actor {
     protected override void OnCollide (GameObject hitObject) {
         Player player = hitObject.GetComponent<Player>();
         if (player != null) {
+            SoundManager.Instance.PlayRandom(attackSounds);
             player.LoseHealth(playerDamage);
             animator.SetTrigger("EnemyAttack");    
         }

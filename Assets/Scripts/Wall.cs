@@ -7,6 +7,7 @@ public class Wall : MonoBehaviour
 {
     public Sprite dmgSprite;
     public int hp = 3;
+    public AudioClip[] chopSounds;
 
     private SpriteRenderer spriteRenderer;
 
@@ -19,6 +20,8 @@ public class Wall : MonoBehaviour
     {
         spriteRenderer.sprite = dmgSprite;
         hp -= damage;
+        
+        SoundManager.Instance.PlayRandom(chopSounds);
 
         if (hp <= 0)
         {
