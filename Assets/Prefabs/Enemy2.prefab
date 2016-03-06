@@ -97,6 +97,9 @@ MonoBehaviour:
     m_Bits: 256
   playerDamage: 10
   health: 1
+  attackSounds:
+  - {fileID: 8300000, guid: 0db8cac2749584a009540aa5671ee80d, type: 3}
+  - {fileID: 8300000, guid: 114514a3b3697484ebaa08f7fbf842d3, type: 3}
 --- !u!212 &21219362
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -135,6 +138,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: attackSounds.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300024, guid: fbe1e7b94bb1a4a099d5bcb15a00141c,
@@ -156,6 +163,14 @@ Prefab:
       value: 
       objectReference: {fileID: 22100000, guid: 14bb501e4b41e404aa76d013c4187508,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: attackSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0db8cac2749584a009540aa5671ee80d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: attackSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 114514a3b3697484ebaa08f7fbf842d3, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 109856}
